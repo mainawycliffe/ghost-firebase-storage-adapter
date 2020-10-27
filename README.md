@@ -1,0 +1,1 @@
+# ghost-firebase-storage-adapter
