@@ -9,6 +9,7 @@
     "typescript": "^4.0.5"
   },
   "dependencies": {
+    "firebase-admin": "^9.3.0",
     "ghost-storage-base": "^0.0.5"
   }
 }
