@@ -5,6 +5,10 @@
   "author": "Maina Wycliffe <wmmaina7@gmail.com>",
   "license": "MIT",
   "devDependencies": {
+    "@types/ghost-storage-base": "^0.0.1",
     "typescript": "^4.0.5"
+  },
+  "dependencies": {
+    "ghost-storage-base": "^0.0.5"
   }
 }
