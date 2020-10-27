@@ -1,7 +1,7 @@
 import BaseAdapter, { Image, ReadOptions } from 'ghost-storage-base';
 import { Request, Response, NextFunction } from 'express';
 
-class FirebaseStorageAdapter extends BaseAdapter {
+export class FirebaseStorageAdapter extends BaseAdapter {
   constructor() {
     super();
   }
