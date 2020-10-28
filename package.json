@@ -1,8 +1,20 @@
 {
   "name": "ghost-firebase-storage-adapter",
+  "description": "Read and write images from Firebase storage in the Ghost blogging platform",
   "version": "1.0.0",
-  "main": "index.js",
-  "author": "Maina Wycliffe <wmmaina7@gmail.com>",
+  "main": "lib/firebase.js",
+  "types": "lib/firebase.d.ts",
+  "keywords": [
+    "ghost",
+    "ghost-cms",
+    "firebase",
+    "firebase-storage"
+  ],
+  "author": "Maina Wycliffe <me@mainawycliffe.dev>",
+  "scripts": {
+    "build": "tsc",
+    "prepare": "npm run build"
+  },
   "license": "MIT",
   "devDependencies": {
     "@types/ghost-storage-base": "^0.0.1",
@@ -11,5 +23,15 @@
   "dependencies": {
     "firebase-admin": "^9.3.0",
     "ghost-storage-base": "^0.0.5"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mainawycliffe/ghost-firebase-storage-adapter"
+  },
+  "bugs": {
+    "url": "https://github.com/mainawycliffe/ghost-firebase-storage-adapter/issues"
+  },
+  "files": [
+    "lib/**/*"
+  ]
 }
