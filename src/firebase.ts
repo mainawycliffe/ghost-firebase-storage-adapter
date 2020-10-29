@@ -1,40 +1,60 @@
 import BaseAdapter, { Image, ReadOptions } from 'ghost-storage-base';
 import { Request, Response, NextFunction } from 'express';
+import admin, { app } from 'firebase-admin';
+
+interface FirebaseStorageConfig {
+  serviceAccount: string;
+  bucketName: string;
+  basePath: string;
+}
 
 export class FirebaseStorageAdapter extends BaseAdapter {
-  constructor() {
+  firebaseApp: app.App;
+
+  constructor(config: FirebaseStorageConfig) {
+    console.log({ config });
     super();
+    this.firebaseApp = admin.initializeApp({
+      credential: admin.credential.cert(config.serviceAccount),
+      storageBucket: `${config.bucketName}.appspot.com`,
+    });
   }
 
-  exists(fileName: string, targetDir?: string | undefined): Promise<boolean> {
+  exists(fileName: string, targetDir?: string): Promise<boolean> {
+    console.log({ fileName, targetDir });
     return new Promise((resolve) => {
       resolve(true);
     });
   }
 
   save(image: Image, targetDir?: string | undefined): Promise<string> {
-    return new Promise((resolve) => {
-      resolve('');
-    });
+    console.log({ image, targetDir });
+    const targetDirectory = targetDir ?? this.getTargetDir();
+    const pathToSave = this.getUniqueFileName(image, targetDirectory);
+    return this.firebaseApp
+      .storage()
+      .bucket()
+      .upload(image.path, {
+        configPath: '',
+      })
+      .then(() => pathToSave);
   }
 
   serve() {
-    return function customServe(
-      req: Request,
-      res: Response,
-      next: NextFunction
-    ) {
+    return function customServe(req: Request, res: Response, next: NextFunction) {
       next();
     };
   }
 
-  delete(fileName: string, targetDir?: string | undefined): Promise<boolean> {
+  delete(fileName: string, targetDir?: string): Promise<boolean> {
+    console.log({ fileName, targetDir });
     return new Promise((resolve) => {
       resolve(true);
     });
   }
 
-  read(options?: ReadOptions | undefined): Promise<Buffer> {
+  read(options?: ReadOptions): Promise<Buffer> {
+    console.log({ options });
     return new Promise((resolve) => {
       resolve(new Buffer(''));
     });
