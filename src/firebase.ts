@@ -1,14 +1,14 @@
 import BaseAdapter, { Image, ReadOptions } from 'ghost-storage-base';
 import { Request, Response, NextFunction } from 'express';
-import admin, { app } from 'firebase-admin';
+import admin, { app, ServiceAccount } from 'firebase-admin';
 
 interface FirebaseStorageConfig {
-  serviceAccount: string;
+  serviceAccount: string | ServiceAccount;
   bucketName: string;
   basePath: string;
 }
 
-export class FirebaseStorageAdapter extends BaseAdapter {
+export default class FirebaseStorageAdapter extends BaseAdapter {
   firebaseApp: app.App;
 
   constructor(config: FirebaseStorageConfig) {
