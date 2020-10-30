@@ -1,6 +1,8 @@
 import BaseAdapter, { Image, ReadOptions } from 'ghost-storage-base';
 import { Request, Response, NextFunction } from 'express';
-import admin, { app, ServiceAccount } from 'firebase-admin';
+import admin, { ServiceAccount } from 'firebase-admin';
+import { Bucket } from '@google-cloud/storage';
+import { join } from 'path';
 
 interface FirebaseStorageConfig {
   serviceAccount: string | ServiceAccount;
@@ -9,31 +11,31 @@ interface FirebaseStorageConfig {
 }
 
 export default class FirebaseStorageAdapter extends BaseAdapter {
-  firebaseApp: app.App;
+  bucket: Bucket;
 
   constructor(config: FirebaseStorageConfig) {
-    console.log({ config });
     super();
-    this.firebaseApp = admin.initializeApp({
+    const app = admin.initializeApp({
       credential: admin.credential.cert(config.serviceAccount),
       storageBucket: `${config.bucketName}.appspot.com`,
     });
+    this.bucket = app.storage().bucket();
   }
 
-  exists(fileName: string, targetDir?: string): Promise<boolean> {
-    console.log({ fileName, targetDir });
-    return new Promise((resolve) => {
-      resolve(true);
-    });
+  exists(fileName: string, targetDir: string): Promise<boolean> {
+    return this.bucket
+      .file(join(targetDir, fileName))
+      .exists()
+      .then(function (data) {
+        return data[0];
+      })
+      .catch((err) => Promise.reject(err));
   }
 
   save(image: Image, targetDir?: string | undefined): Promise<string> {
-    console.log({ image, targetDir });
     const targetDirectory = targetDir ?? this.getTargetDir();
     const pathToSave = this.getUniqueFileName(image, targetDirectory);
-    return this.firebaseApp
-      .storage()
-      .bucket()
+    return this.bucket
       .upload(image.path, {
         configPath: '',
       })
@@ -46,17 +48,33 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     };
   }
 
-  delete(fileName: string, targetDir?: string): Promise<boolean> {
-    console.log({ fileName, targetDir });
-    return new Promise((resolve) => {
-      resolve(true);
-    });
+  delete(fileName: string, targetDir: string): Promise<boolean> {
+    return this.bucket
+      .file(join(targetDir, fileName))
+      .exists()
+      .then(() => true);
   }
 
   read(options?: ReadOptions): Promise<Buffer> {
-    console.log({ options });
-    return new Promise((resolve) => {
-      resolve(new Buffer(''));
+    if (!options) {
+      return new Promise((resolve, reject) => reject('Options can not be undefined'));
+    }
+    const rs = this.bucket.file(options.path).createReadStream();
+    let contents: unknown = null;
+    return new Promise(function (resolve, reject) {
+      rs.on('error', function (err) {
+        return reject(err);
+      });
+      rs.on('data', function (data) {
+        if (contents) {
+          contents = data;
+        } else {
+          contents = Buffer.concat([contents, data]);
+        }
+      });
+      rs.on('end', function () {
+        return resolve(contents as any);
+      });
     });
   }
 }
