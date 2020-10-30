@@ -40,8 +40,8 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     const pathToSave = await this.getUniqueFileName(image, targetDirectory);
     return this.bucket
       .upload(image.path, {
-        destination: pathToSave.split(sep).join(posix.sep),
         ...(this.uploadOptions ? { ...this.uploadOptions } : {}),
+        destination: pathToSave.split(sep).join(posix.sep),
       })
       .then(() => pathToSave);
   }
