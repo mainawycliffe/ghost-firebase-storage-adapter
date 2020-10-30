@@ -1,6 +1,7 @@
 import BaseAdapter, { Image, ReadOptions } from 'ghost-storage-base';
 import { Request, Response, NextFunction } from 'express';
 import admin, { ServiceAccount } from 'firebase-admin';
+import { Bucket, UploadOptions } from '@google-cloud/storage';
 import { join, posix, sep } from 'path';
 
 interface FirebaseStorageConfig {
