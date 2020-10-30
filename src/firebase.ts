@@ -8,10 +8,12 @@ interface FirebaseStorageConfig {
   serviceAccount: string | ServiceAccount;
   bucketName: string;
   basePath: string;
+  uploadOptions?: UploadOptions;
 }
 
 export default class FirebaseStorageAdapter extends BaseAdapter {
   bucket: Bucket;
+  uploadOptions?: UploadOptions;
 
   constructor(config: FirebaseStorageConfig) {
     super();
@@ -20,6 +22,7 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
       storageBucket: `${config.bucketName}.appspot.com`,
     });
     this.bucket = app.storage().bucket();
+    this.uploadOptions = config.uploadOptions;
   }
 
   exists(fileName: string, targetDir: string): Promise<boolean> {
@@ -37,7 +40,7 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     const pathToSave = this.getUniqueFileName(image, targetDirectory);
     return this.bucket
       .upload(image.path, {
-        configPath: '',
+        ...(this.uploadOptions ? { ...this.uploadOptions } : {}),
       })
       .then(() => pathToSave);
   }
