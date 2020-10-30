@@ -35,9 +35,9 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
       .catch((err) => Promise.reject(err));
   }
 
-  save(image: Image, targetDir?: string | undefined): Promise<string> {
+  async save(image: Image, targetDir?: string | undefined): Promise<string> {
     const targetDirectory = targetDir ?? this.getTargetDir();
-    const pathToSave = this.getUniqueFileName(image, targetDirectory);
+    const pathToSave = await this.getUniqueFileName(image, targetDirectory);
     return this.bucket
       .upload(image.path, {
         ...(this.uploadOptions ? { ...this.uploadOptions } : {}),
