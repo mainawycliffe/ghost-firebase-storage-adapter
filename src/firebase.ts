@@ -1,8 +1,7 @@
 import BaseAdapter, { Image, ReadOptions } from 'ghost-storage-base';
 import { Request, Response, NextFunction } from 'express';
 import admin, { ServiceAccount } from 'firebase-admin';
-import { Bucket } from '@google-cloud/storage';
-import { join } from 'path';
+import { join, posix, sep } from 'path';
 
 interface FirebaseStorageConfig {
   serviceAccount: string | ServiceAccount;
@@ -40,6 +39,7 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     const pathToSave = await this.getUniqueFileName(image, targetDirectory);
     return this.bucket
       .upload(image.path, {
+        destination: pathToSave.split(sep).join(posix.sep),
         ...(this.uploadOptions ? { ...this.uploadOptions } : {}),
       })
       .then(() => pathToSave);
