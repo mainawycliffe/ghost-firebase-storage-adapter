@@ -68,11 +68,13 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     };
   }
 
-  delete(fileName: string, targetDir: string): Promise<boolean> {
-    return this.bucket
-      .file(join(targetDir, fileName))
-      .exists()
-      .then(() => true);
+  async delete(fileName: string): Promise<boolean> {
+    const targetDirectory = this.getTargetDir(this.basePath);
+    const results = await this.bucket.file(join(targetDirectory, fileName)).delete();
+    if (results[0].statusCode === 200) {
+      return true;
+    }
+    return false;
   }
 
   read(options?: ReadOptions): Promise<Buffer> {
