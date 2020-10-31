@@ -48,17 +48,15 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     };
     const uploadOptions = {
       ...(this.uploadOptions ? this.uploadOptions : defaultUploadOptions),
-        destination: pathToSave.split(sep).join(posix.sep),
+      destination: pathToSave.split(sep).join(posix.sep),
     };
     const data = await this.bucket.upload(image.path, uploadOptions);
     if (this.domainName) {
       const domainName = new URL(this.domainName);
       const downloadPath = new URL(data[1].name, domainName).toString();
-      console.log({ downloadPath });
       return downloadPath;
     }
     const link = data[1].mediaLink;
-    console.log({ link });
     return link;
   }
 
@@ -81,7 +79,8 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     if (!options) {
       return new Promise((resolve, reject) => reject('Options can not be undefined'));
     }
-    const rs = this.bucket.file(options.path).createReadStream();
+    const filePath = this.getTargetDir(this.basePath);
+    const rs = this.bucket.file(filePath).createReadStream();
     let contents: unknown = null;
     return new Promise(function (resolve, reject) {
       rs.on('error', function (err) {
