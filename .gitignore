@@ -37,3 +37,4 @@ Thumbs.db
 # Ignore built ts files
 dist/**/*
 lib
+content/adapters/storage/firebase.js
