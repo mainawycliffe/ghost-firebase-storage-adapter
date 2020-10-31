@@ -30,7 +30,7 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     this.domainName = config.domainName;
   }
 
-  async exists(fileName: string, _targetDir: string): Promise<boolean> {
+  async exists(fileName: string): Promise<boolean> {
     const targetDirectory = this.getTargetDir(this.basePath);
     const filesExists = await this.bucket.file(join(targetDirectory, fileName)).exists();
     return filesExists[0];
