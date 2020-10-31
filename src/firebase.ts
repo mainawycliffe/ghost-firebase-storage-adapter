@@ -9,12 +9,14 @@ interface FirebaseStorageConfig {
   bucketName: string;
   basePath?: string;
   uploadOptions?: UploadOptions;
+  domainName?: string;
 }
 
 export default class FirebaseStorageAdapter extends BaseAdapter {
   bucket: Bucket;
   uploadOptions?: UploadOptions;
   basePath: string;
+  domainName?: string;
 
   constructor(config: FirebaseStorageConfig) {
     super();
@@ -25,6 +27,7 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     this.bucket = app.storage().bucket();
     this.uploadOptions = config.uploadOptions;
     this.basePath = config.basePath ?? '';
+    this.domainName = config.domainName;
   }
 
   async exists(fileName: string, _targetDir: string): Promise<boolean> {
@@ -47,6 +50,16 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
       ...(this.uploadOptions ? this.uploadOptions : defaultUploadOptions),
         destination: pathToSave.split(sep).join(posix.sep),
     };
+    const data = await this.bucket.upload(image.path, uploadOptions);
+    if (this.domainName) {
+      const domainName = new URL(this.domainName);
+      const downloadPath = new URL(data[1].name, domainName).toString();
+      console.log({ downloadPath });
+      return downloadPath;
+    }
+    const link = data[1].mediaLink;
+    console.log({ link });
+    return link;
   }
 
   serve() {
