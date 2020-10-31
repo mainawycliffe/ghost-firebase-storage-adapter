@@ -81,20 +81,20 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     }
     const filePath = this.getTargetDir(this.basePath);
     const rs = this.bucket.file(filePath).createReadStream();
-    let contents: unknown = null;
+    let fileContent: Buffer;
     return new Promise(function (resolve, reject) {
       rs.on('error', function (err) {
         return reject(err);
       });
       rs.on('data', function (data) {
-        if (contents) {
-          contents = data;
+        if (fileContent) {
+          fileContent = data;
         } else {
-          contents = Buffer.concat([contents, data]);
+          fileContent = Buffer.concat([fileContent, data]);
         }
       });
       rs.on('end', function () {
-        return resolve(contents as any);
+        return resolve(fileContent);
       });
     });
   }
