@@ -15,7 +15,7 @@
     "build": "tsc",
     "prepare": "npm run build",
     "lint": "eslint '*/**/*.ts' --quiet --fix",
-    "install": "node ./lib/postinstall.js"
+    "postinstall": "node ./script.js"
   },
   "license": "MIT",
   "devDependencies": {
