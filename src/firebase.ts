@@ -7,13 +7,14 @@ import { join, posix, sep } from 'path';
 interface FirebaseStorageConfig {
   serviceAccount: string | ServiceAccount;
   bucketName: string;
-  basePath: string;
+  basePath?: string;
   uploadOptions?: UploadOptions;
 }
 
 export default class FirebaseStorageAdapter extends BaseAdapter {
   bucket: Bucket;
   uploadOptions?: UploadOptions;
+  basePath: string;
 
   constructor(config: FirebaseStorageConfig) {
     super();
@@ -23,6 +24,7 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     });
     this.bucket = app.storage().bucket();
     this.uploadOptions = config.uploadOptions;
+    this.basePath = config.basePath ?? '';
   }
 
   async exists(fileName: string, _targetDir: string): Promise<boolean> {
@@ -31,8 +33,8 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     return filesExists[0];
   }
 
-  async save(image: Image, targetDir?: string | undefined): Promise<string> {
-    const targetDirectory = targetDir ?? this.getTargetDir();
+    const targetDirectory = this.getTargetDir(this.basePath);
+    // the typings are wrong here, getUniqueFileName returns a promise of a string
     const pathToSave = await this.getUniqueFileName(image, targetDirectory);
     return this.bucket
       .upload(image.path, {
