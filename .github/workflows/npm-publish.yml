@@ -36,7 +36,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: yarn install --silent
+      - run: yarn install
       - run: yarn build
       - run: npm publish
         env:
@@ -51,7 +51,7 @@ jobs:
         with:
           node-version: 12
           registry-url: https://npm.pkg.github.com/
-      - run: yarn install --silent
+      - run: yarn install
       - run: yarn build
         env:
           NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
