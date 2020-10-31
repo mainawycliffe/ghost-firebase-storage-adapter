@@ -25,14 +25,10 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     this.uploadOptions = config.uploadOptions;
   }
 
-  exists(fileName: string, targetDir: string): Promise<boolean> {
-    return this.bucket
-      .file(join(targetDir, fileName))
-      .exists()
-      .then(function (data) {
-        return data[0];
-      })
-      .catch((err) => Promise.reject(err));
+  async exists(fileName: string, _targetDir: string): Promise<boolean> {
+    const targetDirectory = this.getTargetDir(this.basePath);
+    const filesExists = await this.bucket.file(join(targetDirectory, fileName)).exists();
+    return filesExists[0];
   }
 
   async save(image: Image, targetDir?: string | undefined): Promise<string> {
