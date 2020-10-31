@@ -33,15 +33,20 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     return filesExists[0];
   }
 
+  async save(image: Image): Promise<string> {
     const targetDirectory = this.getTargetDir(this.basePath);
     // the typings are wrong here, getUniqueFileName returns a promise of a string
     const pathToSave = await this.getUniqueFileName(image, targetDirectory);
-    return this.bucket
-      .upload(image.path, {
-        ...(this.uploadOptions ? { ...this.uploadOptions } : {}),
+    const defaultUploadOptions = {
+      metadata: {
+        cacheControl: `public, max-age=${30000}`,
+      },
+      public: true,
+    };
+    const uploadOptions = {
+      ...(this.uploadOptions ? this.uploadOptions : defaultUploadOptions),
         destination: pathToSave.split(sep).join(posix.sep),
-      })
-      .then(() => pathToSave);
+    };
   }
 
   serve() {
