@@ -1,7 +1,7 @@
 {
   "name": "ghost-firebase-storage-adapter",
   "description": "Read and write images from Firebase storage in the Ghost blogging platform",
-  "version": "1.0.0-alpha.7",
+  "version": "1.0.0-alpha.8",
   "main": "lib/firebase.js",
   "types": "lib/firebase.d.ts",
   "keywords": [
