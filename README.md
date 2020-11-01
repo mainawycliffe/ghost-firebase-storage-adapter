@@ -56,29 +56,47 @@ module.exports = require('ghost-firebase-storage-adapter');
 
 ```json
 "storage": {
-    "serviceAccount": "./path/to/service/account.json",
-    "bucketName": "bucket-name",
-    "basePath": "base path for saving uploads",
-    "uploadOptions": {
-        "gzip": true,
-        "metadata": {
-            "cacheControl": "public, max-age=31536000"
+    "active": "firebase",
+    "firebase": {
+        // configurations for the storage adapter
+        "serviceAccount": "./path/to/service/account.json",
+        "bucketName": "bucket-name",
+        "basePath": "base path for saving uploads",
+        "uploadOptions": {
+            "gzip": true,
+            "metadata": {
+                "cacheControl": "public, max-age=31536000"
+            }
         }
     }
 }
 ```
 
-### Configure Adapter For your Firebase Project
+### Config notes
 
-To configure you project, the following fields can be passed along:
+- `serviceAccount` (`required`) - Path to your firebase service account
+  credential file, you can provide a relative or absolute path to the credential file.
+- `bucketName` (`required`) - The bucket to save ghost uploads to
+- `basePath` - the base directory to upload file to inside your Firebase storage
+  bucket.
+- `uploadOptions` - Configuration options for bucket file upload as indicated
+  [here](https://googleapis.dev/nodejs/storage/latest/global.html#UploadOptions).
+  All fields can be appended except the destination:
 
-| Field          | Required | c                                                              |
-| -------------- | -------- | -------------------------------------------------------------- |
-| serviceAccount | true     | Path to your firebase account credentials json file            |
-| bucketName     | true     | The bucket to save ghost uploads to                            |
-| basePath       | false    | the path to append to the filename of the ghost upload         |
-| uploadOptions  | false    | set uploadOptions to be added to your file uploads to firebase |
-| domain         | false    | the domain name to append to the destination path name         |
+  **Example**
+
+  ```json
+  {
+      "metadata": {
+          "cacheControl": "public, max-age=30000",
+      },
+      "public": "true",
+      "gzip": true
+  }
+  ```
+
+- `domain` - Custom domain name to append to the file destination. Use this
+  option if you are using a Firebase Cloud Functions to server images.
 
 ## Verify new Storage Adapter
 
