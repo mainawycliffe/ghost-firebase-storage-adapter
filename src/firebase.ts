@@ -42,7 +42,7 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     const pathToSave = await this.getUniqueFileName(image, targetDirectory);
     const defaultUploadOptions = {
       metadata: {
-        cacheControl: `public, max-age=${30000}`,
+        cacheControl: `public, max-age=30000`,
       },
       public: true,
     };
