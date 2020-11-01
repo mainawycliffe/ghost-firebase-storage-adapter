@@ -40,6 +40,7 @@
     "url": "https://github.com/mainawycliffe/ghost-firebase-storage-adapter/issues"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "script.js"
   ]
 }
