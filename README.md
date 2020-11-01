@@ -52,13 +52,15 @@ module.exports = require('ghost-firebase-storage-adapter');
 - Add a `storage` block to your config.${GHOST_ENVIRONMENT}.json as shown below:
 
 ```json
-"serviceAccount": "./path/to/service/account.json",
-"bucketName": "bucket-name",
-"basePath": "base path for saving uploads",
-"uploadOptions": {
-    "gzip": true,
-    "metadata": {
-        "cacheControl": "public, max-age=31536000"
+"storage": {
+    "serviceAccount": "./path/to/service/account.json",
+    "bucketName": "bucket-name",
+    "basePath": "base path for saving uploads",
+    "uploadOptions": {
+        "gzip": true,
+        "metadata": {
+            "cacheControl": "public, max-age=31536000"
+        }
     }
 }
 ```
