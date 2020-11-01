@@ -77,3 +77,20 @@ To configure you project, the following fields can be passed along:
 | uploadOptions  | false    | set uploadOptions to be added to your file uploads to firebase |
 | domain         | false    | the domain name to append to the destination path name         |
 
+## Verify new Storage Adapter
+
+To verify everything is configured correctly, stop your ghost server and run it
+again.
+
+```sh
+ghost stop
+ghost run
+```
+
+Fix any errors that come up and try again. After that, try and uploading a file
+and it should be accessible on your Firebase storage bucket.
+
+## Contributions
+
+Contributions of any kind - bug reports, pull request, feature suggestions are
+welcome.
