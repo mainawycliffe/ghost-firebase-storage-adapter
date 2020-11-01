@@ -39,7 +39,7 @@ following content:
 module.exports = require('ghost-firebase-storage-adapter');
 ```
 
-> **NB:** if the `firebase.js` was not created, create it and add the content.
+> **NB:** if the `firebase.js` was not created, create it in the `content/adapters/storage` directory and add the above content.
 
 ## Configurations
 
@@ -49,7 +49,7 @@ module.exports = require('ghost-firebase-storage-adapter');
 
 - Add the json file containing the private key to the root of you ghost
   directory or somewhere else more secure.
-- Add a `storage` block to your config.${GHOST_ENVIRONMENT}.json as shown below:
+- Add a `storage` block to your `config.${GHOST_ENVIRONMENT}.json` as shown below:
 
 ```json
 "storage": {
@@ -71,7 +71,7 @@ To configure you project, the following fields can be passed along:
 
 | Field          | Required | c                                                              |
 | -------------- | -------- | -------------------------------------------------------------- |
-| serviceAccount | true     | Path to your firebase account credentials                      |
+| serviceAccount | true     | Path to your firebase account credentials json file            |
 | bucketName     | true     | The bucket to save ghost uploads to                            |
 | basePath       | false    | the path to append to the filename of the ghost upload         |
 | uploadOptions  | false    | set uploadOptions to be added to your file uploads to firebase |
