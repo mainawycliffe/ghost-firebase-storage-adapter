@@ -1,5 +1,8 @@
 # Ghost Firebase Storage Adapter
 
+[![npm](https://img.shields.io/npm/v/ghost-firebase-storage-adapter)](https://www.npmjs.com/package/ghost-firebase-storage-adapter)
+[![](https://img.shields.io/github/release/mainawycliffe/ghost-firebase-storage-adapter.svg)](https://github.com/mainawycliffe/ghost-firebase-storage-adapter/releases/latest)
+
 This a Firebase [Storage adapter](https://ghost.org/docs/concepts/storage-adapters/) for Ghost CMS. Images uploaded via Ghost CMS
 will be save to Firebase Storage.
 
