@@ -75,9 +75,9 @@ export default class FirebaseStorageAdapter extends BaseAdapter {
     return false;
   }
 
-  read(options?: ReadOptions): Promise<Buffer> {
+  async read(options?: ReadOptions): Promise<Buffer> {
     if (!options) {
-      return new Promise((resolve, reject) => reject('Options can not be undefined'));
+      throw Error('Options can not be undefined');
     }
     const filePath = this.getTargetDir(this.basePath);
     const rs = this.bucket.file(filePath).createReadStream();
