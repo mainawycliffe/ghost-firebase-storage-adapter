@@ -13,7 +13,7 @@ const adapterDir = 'content/adapters/storage';
     if (!existsSync(join(__dirname, adapterDir))) {
       mkdirSync(adapterDir, { recursive: true });
     }
-    const content = `'use strict'\n\nmodule.exports = require('ghost-firebase-storage-adapter');\n`;
+    const content = `'use strict'\n\nmodule.exports = require('ghost-firebase-storage-adapter');\n\n`;
     appendFileSync(join(adapterDir, 'firebase.js'), content);
     // add configs to the dev settings
   } catch (error) {
