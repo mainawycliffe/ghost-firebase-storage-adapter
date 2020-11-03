@@ -1,0 +1,37 @@
+{
+  "url": "http://localhost:2368/",
+  "server": {
+    "port": 2368,
+    "host": "127.0.0.1"
+  },
+  "database": {
+    "client": "sqlite3",
+    "connection": {
+      "filename": "/path/to/ghost/blog/content/data/ghost-local.db"
+    }
+  },
+  "mail": {
+    "transport": "Direct"
+  },
+  "logging": {
+    "transports": ["file", "stdout"]
+  },
+  "process": "local",
+  "paths": {
+    "contentPath": "/path/to/ghost/blog/content"
+  },
+  "storage": {
+    "active": "firebase",
+    "firebase": {
+      "serviceAccount": "./path/to/service/account.json",
+      "bucketName": "bucket-name",
+      "basePath": "base path for saving uploads",
+      "uploadOptions": {
+        "gzip": true,
+        "metadata": {
+          "cacheControl": "public, max-age=31536000"
+        }
+      }
+    }
+  }
+}

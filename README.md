@@ -72,6 +72,8 @@ module.exports = require('ghost-firebase-storage-adapter');
 }
 ```
 
+For more information, see the example config [here](example/config.development.json).
+
 ### Config notes
 
 - `serviceAccount` (`required`) - Path to your firebase service account
@@ -96,7 +98,7 @@ module.exports = require('ghost-firebase-storage-adapter');
   ```
 
 - `domain` - Custom domain name to append to the file destination. Use this
-  option if you are using a Firebase Cloud Functions to server images.
+  option if you are using a Firebase Cloud Functions to serve images.
 
 ## Verify new Storage Adapter
 
