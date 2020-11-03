@@ -14,7 +14,7 @@
   "scripts": {
     "build": "tsc",
     "prepare": "npm run build",
-    "lint": "eslint '*/**/*.ts' --quiet --fix",
+    "lint": "eslint '*/**/*.ts'",
     "postinstall": "node ./script.js",
     "postversion": "git push --follow-tags"
   },
