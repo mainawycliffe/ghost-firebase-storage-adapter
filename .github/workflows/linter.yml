@@ -1,4 +1,4 @@
-name: Package Linting
+name: Linting and Testing
 
 on:
   push:
@@ -7,7 +7,7 @@ on:
     branches: [master]
 
 jobs:
-  build:
+  lintAndTest:
     name: Lint Code Base
     runs-on: ubuntu-latest
     steps:
@@ -17,3 +17,4 @@ jobs:
           node-version: '12'
       - run: yarn install
       - run: yarn lint
+      - run: yarn test

@@ -15,18 +15,23 @@
     "build": "tsc",
     "prepare": "npm run build",
     "lint": "eslint '*/**/*.ts'",
+    "test": "jest",
     "postinstall": "node ./script.js",
     "postversion": "git push --follow-tags"
   },
   "license": "MIT",
   "devDependencies": {
     "@types/ghost-storage-base": "^0.0.1",
+    "@types/jest": "^26.0.15",
     "@typescript-eslint/eslint-plugin": "^4.6.0",
     "@typescript-eslint/parser": "^4.6.0",
     "eslint": "^7.12.1",
     "eslint-config-prettier": "^6.15.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "jest": "^26.6.3",
     "prettier": "^2.1.2",
+    "ts-jest": "^26.4.3",
+    "ts-node": "^9.0.0",
     "typescript": "^3.9.0"
   },
   "dependencies": {
